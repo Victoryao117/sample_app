@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= full_title(yield(:title)) %></title>
+	<%= stylesheet_link_tag "application", media: "all","data-turbolinks-track" => true %>
+	<%= javascript_include_tag "application", "data-turbolinks-track" =>true %>
+	<%= csrf_meta_tags %>
+	<!--局部视图：寻找app/views/layouts/_shim.html.erb，执行文件中的代码，把结果插入试图-->
+	<%= render 'layouts/shim' %>
+</head>
+<body>
+	<!--局部视图：寻找app/views/layouts/_header.html.erb，执行文件中的代码，把结果插入试图-->
+	<%= render 'layouts/header' %>
+	<div class="container">
+	<!--加入flash信息-->
+	<% flash.each do |key, value| %>
+		<!--<div class="alert alert-<%= key %>"><%= value %></div>-->
+		<!--7.6练习题，测试content_tag方法是否与上述语句效果相同-->
+		<%= content_tag(:div, value, class: "alert alert-#{key}") %>
+	<% end %>
+	<%= yield %>
+	<%= render 'layouts/footer' %>
+	<!--调试信息 -->
+	<%= debug(params) if Rails.env.development? %>
+	</div>
+</body>
+</html>
